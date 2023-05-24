@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Place</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body style="height: 100%; overflow: hidden;">
+    <canvas
+        style="image-rendering: pixelated; width: 90%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: width 0.25s;"
+        id="canvas" oncontextmenu="setColorPick(event); return false;" onclick="setColor(event)"></canvas>
+    <div style="display: flex; bottom: 10px; left: 10px; flex-direction: row; position: absolute;" id="colordiv">
+        <div id="color" style="width: 40px; height: 40px; background-color: #000000;"></div>
+        <input id="colorselect" type="text" placeholder="#000000" value="#000000"
+            style="font-size: 20px; width: 40%; outline: none; border: none;">
+    </div>
+    <div style="position: absolute; bottom: 60px; left: 10px;">
+        <div style="margin-top: 5px; display: flex; flex-direction: row;">
+            <div onclick="color = '#6d001a'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #6d001a;"></div>
+            <div onclick="color = '#be0039'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                onclick="color = '#6d001a'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #be0039;"></div>
+            <div onclick="color = '#ff4500'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #ff4500;"></div>
+            <div onclick="color = '#ffa800'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #ffa800;"></div>
+            <div onclick="color = '#ffd635'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #ffd635;"></div>
+            <div onclick="color = '#fff8b8'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #fff8b8;"></div>
+            <div onclick="color = '#00a368'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #00a368;"></div>
+            <div onclick="color = '#00cc78'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #00cc78;"></div>
+        </div>
+        <div style="margin-top: 5px; display: flex; flex-direction: row;">
+            <div onclick="color = '#7eed56'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #7eed56;"></div>
+            <div onclick="color = '#00756f'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #00756f;"></div>
+            <div onclick="color = '#009eaa'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #009eaa;"></div>
+            <div onclick="color = '#00ccc0'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #00ccc0;"></div>
+            <div onclick="color = '#2450a4'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #2450a4;"></div>
+            <div onclick="color = '#3690ea'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #3690ea;"></div>
+            <div onclick="color = '#51e9f4'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #51e9f4;"></div>
+            <div onclick="color = '#493ac1'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #493ac1;"></div>
+        </div>
+        <div style="margin-top: 5px; display: flex; flex-direction: row;">
+            <div onclick="color = '#6a5cff'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #6a5cff;"></div>
+            <div onclick="color = '#94b3ff'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #94b3ff;"></div>
+            <div onclick="color = '#811e9f'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #811e9f;"></div>
+            <div onclick="color = '#b44ac0'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #b44ac0;"></div>
+            <div onclick="color = '#e4abff'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #e4abff;"></div>
+            <div onclick="color = '#de107f'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #de107f;"></div>
+            <div onclick="color = '#ff3881'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #ff3881;"></div>
+            <div onclick="color = '#ff99aa'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #ff99aa;"></div>
+        </div>
+        <div style="margin-top: 5px; display: flex; flex-direction: row;">
+            <div onclick="color = '#6d482f'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #6d482f;"></div>
+            <div onclick="color = '#9c6926'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #9c6926;"></div>
+            <div onclick="color = '#ffb470'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #ffb470;"></div>
+            <div onclick="color = '#000000'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #000000;"></div>
+            <div onclick="color = '#515252'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #515252;"></div>
+            <div onclick="color = '#898d90'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #898d90;"></div>
+            <div onclick="color = '#d4d7d9'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #d4d7d9;"></div>
+            <div onclick="color = '#ffffff'.toUpperCase(); document.getElementById('colorselect').value = color; document.getElementById('color').style.backgroundColor = color;"
+                style="margin-right: 5px; width: 30px; height: 30px; background-color: #ffffff;"></div>
+        </div>
+    </div>
+    <style>
+        body {
+            background-color: lightgrey;
+        }
+    </style>
+    <script>
+        let canvasWidth = 90;
+        let offsetLeft;
+        let offsetTop;
+        const canvasMoveDiff = 0.25;
+        let color = document.getElementById("colorselect").value || "#000000";
+        let middleClick = false;
+        let lastMove;
+        let middleClickTimeout;
+        let heartbeatInterval;
+        let canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        document.getElementById("colorselect").addEventListener("change", () => {
+            let value = document.getElementById("colorselect").value;
+            if (!value.startsWith("#")) value = `#${value || "000000"}`;
+            if (/^#[0-9A-F]{6}$/i.test(value)) {
+                color = value.toUpperCase();
+                document.getElementById("colorselect").value = color;
+                document.getElementById("color").style.backgroundColor = color;
+            } else {
+                document.getElementById("colorselect").value = "#000000";
+                color = "#000000";
+            }
+        });
+        window.addEventListener("mousedown", e => {
+            if (e.button === 1) {
+                middleClick = true;
+                offsetLeft = document.getElementById("canvas").offsetLeft - e.clientX;
+                offsetTop = document.getElementById("canvas").offsetTop - e.clientY;
+                document.body.style.cursor = "grab";
+            }
+        });
+        document.body.onmousedown = e => {
+            if (e.button === 1) return false;
+        }
+        window.addEventListener("wheel", e => {
+            if (e.deltaY === -100 || e.deltaY === 100) {
+                if (e.deltaY === 100) {
+                    if (canvasWidth <= 0) return;
+                    document.getElementById("canvas").style.width = `${canvasWidth -= canvasWidth * 0.25}%`;
+                } else {
+                    if (canvasWidth >= 10000) return;
+                    document.getElementById("canvas").style.width = `${canvasWidth += canvasWidth * 0.25}%`;
+                }
+            }
+        });
+        window.addEventListener("mouseup", e => {
+            if (e.button === 1) {
+                middleClick = false;
+                if (middleClickTimeout) clearTimeout(middleClickTimeout);
+                document.body.style.cursor = "auto";
+            }
+        });
+        window.addEventListener("mousemove", e => {
+            if (middleClick) {
+                document.body.style.cursor = "grabbing";
+                lastMove = Date.now();
+                if (middleClickTimeout) clearTimeout(middleClickTimeout);
+                middleClickTimeout = setTimeout(() => { if ((Date.now() - lastMove) > 125) document.body.style.cursor = "grab" }, 500);
+                document.getElementById("canvas").style.left = `${e.clientX + offsetLeft}px`;
+                document.getElementById("canvas").style.top = `${e.clientY + offsetTop}px`;
+            }
+        });
+        const ws = new WebSocket(`<wsprot>${window.location.hostname}:<wsport>`);
+        fetch("/canvas").then(async res => {
+            const blob = await res.blob();
+            const img = new Image();
+
+            img.onload = () => ctx.drawImage(img, 0, 0);
+
+            img.src = URL.createObjectURL(blob);
+        });
+        ws.onopen = () => heartbeatInterval = setInterval(() => ws.send("heartbeat"), 10000);
+        ws.onclose = () => {
+            clearInterval(heartbeatInterval);
+            alert("WebSocket disconnected! Please refresh");
+            location.reload();
+        }
+        ws.onmessage = msg => {
+            if (msg.data === "heartbeat") return;
+            msg = JSON.parse(msg.data);
+            if (msg.w && msg.h) {
+                ctx.canvas.width = msg.w;
+                return ctx.canvas.height = msg.h;
+            }
+            if (msg.code) if (msg.code === 0) return alert("You cannot place anymore pixels!");
+            if (typeof msg.x !== "undefined" && typeof msg.y !== "undefined" && msg.c) {
+                ctx.fillStyle = msg.c;
+                ctx.fillRect(msg.x, msg.y, 1, 1);
+            }
+        }
+
+        function getColor(e) {
+            const { x, y } = getPos(e);
+            const pixelData = ctx.getImageData(x, y, 1, 1).data;
+            return `#${rgbToHex(pixelData[0], pixelData[1], pixelData[2])}`.toUpperCase();
+        }
+
+        function setColorPick(e) {
+            const c = getColor(e);
+            if (color === c) return;
+            color = c.toUpperCase();
+            document.getElementById("colorselect").value = color;
+            document.getElementById("color").style.backgroundColor = color;
+        }
+
+        function setColor(e) {
+            const { x, y } = getPos(e);
+            const c = getColor(e);
+            if (c === color.toUpperCase()) return;
+            ws.send(JSON.stringify({ x, y, c: color }));
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / (rect.right - rect.left) * canvas.width);
+            const y = Math.floor((e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height);
+            return { x, y };
+        }
+
+        function rgbToHex(r, g, b) {
+            r = r.toString(16);
+            g = g.toString(16);
+            b = b.toString(16);
+            if (r.length === 1) r = `0${r}`;
+            if (g.length === 1) g = `0${g}`;
+            if (b.length === 1) b = `0${b}`;
+            return r + g + b;
+        }
+    </script>
+</body>
+
+</html>
