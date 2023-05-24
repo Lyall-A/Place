@@ -6,14 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body style="height: 100%; overflow: hidden;">
+<body style="height: 100%; overflow: hidden; background-color: lightgrey;">
     <canvas
         style="image-rendering: pixelated; width: 90%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: width 0.25s;"
         id="canvas" oncontextmenu="setColorPick(event); return false;" onclick="setColor(event)"></canvas>
     <div style="display: flex; bottom: 10px; left: 10px; flex-direction: row; position: absolute;" id="colordiv">
         <div id="color" style="width: 40px; height: 40px; background-color: #000000;"></div>
-        <input id="colorselect" type="text" placeholder="#000000" value="#000000"
-            style="font-size: 20px; width: 40%; outline: none; border: none;">
+        <input id="colorselect" type="text" placeholder="#000000" value="#000000" style="font-size: 20px; width: 40%; outline: none; border: none;">
     </div>
     <div style="position: absolute; bottom: 60px; left: 10px;">
         <div style="margin-top: 5px; display: flex; flex-direction: row;">
@@ -90,11 +89,6 @@
                 style="margin-right: 5px; width: 30px; height: 30px; background-color: #ffffff;"></div>
         </div>
     </div>
-    <style>
-        body {
-            background-color: lightgrey;
-        }
-    </style>
     <script>
         let canvasWidth = 90;
         let offsetLeft;
@@ -133,10 +127,10 @@
         window.addEventListener("wheel", e => {
             if (e.deltaY === -100 || e.deltaY === 100) {
                 if (e.deltaY === 100) {
-                    if (canvasWidth <= 0) return;
+                    if (canvasWidth < 5) return;
                     document.getElementById("canvas").style.width = `${canvasWidth -= canvasWidth * 0.25}%`;
                 } else {
-                    if (canvasWidth >= 10000) return;
+                    if (canvasWidth > 10000) return;
                     document.getElementById("canvas").style.width = `${canvasWidth += canvasWidth * 0.25}%`;
                 }
             }
