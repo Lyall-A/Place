@@ -1,0 +1,9 @@
+{
+    "port": 4822,
+    "canvasLocation": "place.bmp",
+    "width": 500,
+    "height": 500,
+    "saveInterval": 60000,
+    "blankCanvasLocation": null,
+    "blankCanvasColor": "#FFFFFF"
+}

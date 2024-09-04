@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Place</title>
+        <link rel="stylesheet" href="/main.css">
+        <script src="/main.js"></script>
+    </head>
+    <body>
+        <div id="main">
+            <canvas id="canvas"></canvas>
+        </div>
+        <script>
+            (async () => {
+                await connectWs();
+                await loadCanvas();
+
+                canvas.addEventListener("click", e => {
+                    wsConnection.json({ action: "set-color", x: e.offsetX, y: e.offsetY, color: "#4287f5" });
+                });
+
+                const minZoom = 5; // Divided by page width
+                const maxZoom = 5; // Multiplied by page width
+                const canvasBoundaryLimit = 50; // How far the canvas can go out of view in pixels
+                let mouseDown = false;
+
+                canvas.addEventListener("mousedown", () =>  {
+                    mouseDown = true
+                });
+                canvas.addEventListener("mouseup", () => {
+                    canvas.classList.remove("drag");
+                    mouseDown = false
+                });
+                document.body.addEventListener("mousemove", e => {
+                    if (mouseDown) {
+                        canvas.classList.add("drag");
+                        canvas.style.left = `${Math.min(Math.max(canvas.offsetLeft + e.movementX, -canvas.offsetWidth + canvasBoundaryLimit), document.body.offsetWidth - canvasBoundaryLimit)}px`;
+                        canvas.style.top = `${Math.min(Math.max(canvas.offsetTop + e.movementY, -canvas.offsetHeight + canvasBoundaryLimit), document.body.offsetHeight - canvasBoundaryLimit)}px`;
+                    }
+                });
+                canvas.addEventListener("wheel", e => {
+                    // TODO: zoom where cursor is
+                    canvas.style.width = `${Math.min(Math.max(canvas.offsetWidth + e.deltaY, document.body.offsetWidth / minZoom), document.body.offsetWidth * maxZoom)}px`;
+                });
+            })();
+        </script>
+    </body>
+</html>
