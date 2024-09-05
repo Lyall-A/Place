@@ -9,39 +9,54 @@
     </head>
     <body>
         <div id="main">
+            <div id="colors">
+                <div style="width: 100%; text-align: center; color: white; font-size: 1.2em;">Colors</div>
+            </div>
             <canvas id="canvas"></canvas>
         </div>
         <script>
             (async () => {
                 await connectWs();
                 await loadCanvas();
+                showColors();
+                selectColor(Math.floor(Math.random() * colors.length));
 
-                canvas.addEventListener("click", e => {
-                    wsConnection.json({ action: "set-color", x: e.offsetX, y: e.offsetY, color: "#4287f5" });
+                canvas.addEventListener("mousedown", e => {
+                    if (e.button === 0) leftMouseDown = true;
+                    if (e.button === 2) rightMouseDown = true;
                 });
 
-                const minZoom = 5; // Divided by page width
-                const maxZoom = 5; // Multiplied by page width
-                const canvasBoundaryLimit = 50; // How far the canvas can go out of view in pixels
-                let mouseDown = false;
-
-                canvas.addEventListener("mousedown", () =>  {
-                    mouseDown = true
-                });
-                canvas.addEventListener("mouseup", () => {
-                    canvas.classList.remove("drag");
-                    mouseDown = false
-                });
-                document.body.addEventListener("mousemove", e => {
-                    if (mouseDown) {
-                        canvas.classList.add("drag");
-                        canvas.style.left = `${Math.min(Math.max(canvas.offsetLeft + e.movementX, -canvas.offsetWidth + canvasBoundaryLimit), document.body.offsetWidth - canvasBoundaryLimit)}px`;
-                        canvas.style.top = `${Math.min(Math.max(canvas.offsetTop + e.movementY, -canvas.offsetHeight + canvasBoundaryLimit), document.body.offsetHeight - canvasBoundaryLimit)}px`;
+                document.body.addEventListener("mouseup", e => {
+                    if (e.button === 0) {
+                        if (canvas.classList.contains("drag")) {
+                            canvas.classList.remove("drag");
+                        } else {
+                            const { canvasX, canvasY } = getCanvasPixel(e);
+                            if (canvasX < 0 || canvasX > canvas.width || canvasY < 0 || canvasY > canvas.height) return;
+                            setPixel(e);
+                        }
+                        leftMouseDown = false;
                     }
+                    if (e.button === 2) rightMouseDown = false;
                 });
+
+                document.body.addEventListener("mousemove", e => {
+                    if (leftMouseDown) {
+                        canvas.classList.add("drag");
+                        canvas.style.left = `${Math.round(Math.min(Math.max(canvas.offsetLeft + e.movementX, -canvas.offsetWidth + canvasBoundaryLimit), document.body.offsetWidth - canvasBoundaryLimit))}px`;
+                        canvas.style.top = `${Math.round(Math.min(Math.max(canvas.offsetTop + e.movementY, -canvas.offsetHeight + canvasBoundaryLimit), document.body.offsetHeight - canvasBoundaryLimit))}px`;
+                    }
+                    if (rightMouseDown && dragToDraw) setPixel(e);
+                });
+
                 canvas.addEventListener("wheel", e => {
-                    // TODO: zoom where cursor is
-                    canvas.style.width = `${Math.min(Math.max(canvas.offsetWidth + e.deltaY, document.body.offsetWidth / minZoom), document.body.offsetWidth * maxZoom)}px`;
+                    // TODO: zoom where cursor is (smoothly and not buggy)
+                    const { canvasX: prevCanvasX, canvasY: prevCanvasY } = getCanvasPixel(e);
+                    canvas.style.width = `${Math.round(Math.min(Math.max(canvas.offsetWidth + e.deltaY, document.body.offsetWidth / minZoom), document.body.offsetWidth * maxZoom))}px`;
+                    const { canvasX: currCanvasX, canvasY: currCanvasY } = getCanvasPixel(e);
+
+                    canvas.style.left = `${Math.round(canvas.offsetLeft - ((prevCanvasX - currCanvasX) * (canvas.offsetWidth / canvas.width)))}px`;
+                    canvas.style.top = `${Math.round(canvas.offsetTop - ((prevCanvasY - currCanvasY) * (canvas.offsetHeight / canvas.height)))}px`;
                 });
             })();
         </script>

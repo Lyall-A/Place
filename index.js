@@ -34,9 +34,9 @@ wsServer.on("connection", (socket, req) => {
 
         if (json.action === "set-color") {
             const { x, y, color } = json;
-            if (!x || !y || !color) return socket.json({ error: "Invalid parameters!" }); // TODO: anti-fuckup if invalid parameters
+            if (!x || x < 0 || x > canvas.width || !y || y < 0 || y > canvas.height || !tryRgb(color)) return socket.json({ error: "Invalid parameters!" });
             
-            setColor(x, y, hexToRgb(color));
+            setColor(x, y, tryRgb(color));
         }
     });
 
@@ -100,7 +100,7 @@ function parseBmp(bmp) {
             const g = bmp.readUInt8(offset++);
             const r = bmp.readUInt8(offset++);
 
-            pixels.push(rgbToHex(r, g, b));
+            pixels.push([r, g, b]);
         }
 
         offset -= (width * 3) + rowSize;
@@ -164,7 +164,9 @@ function parseObj(obj) {
         for (let y = height - 1; y >= 0; y--) {
             for (let x = 0; x < width; x++) {
                 const index = y * width + x;
-                const [red, green, blue] = pixels[index] instanceof Array ? pixels[index] : hexToRgb(pixels[index]);
+                const rgb = tryRgb(pixels[index]);
+                if (!rgb) throw new Error(`Could not convert '${pixels[index]}' at ${index} to RGB`);
+                const [red, green, blue] = rgb;
 
                 pixelArray.writeUInt8(blue, offset++);
                 pixelArray.writeUInt8(green, offset++);
@@ -189,10 +191,14 @@ function hexToRgb(hex) {
     return [r, g, b];
 }
 
-function rgbToHex(r, g, b) {
-    const red = r.toString(16).padStart(2, "0");
-    const green = g.toString(16).padStart(2, "0");
-    const blue = b.toString(16).padStart(2, "0");
-
-    return `${red}${green}${blue}`;
+function tryRgb(input) {
+    if (typeof input === "object" && input[0] >= 0 && input[0] <= 255 && input[1] >= 0 && input[1] <= 255 && input[2] >= 0 && input[2] <= 255) {
+        return [input[0], input[1], input[2]];
+    } else {
+        try {
+            return hexToRgb(input);
+        } catch (err) {
+            return false;
+        }
+    }
 }

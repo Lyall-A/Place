@@ -1,3 +1,53 @@
+const colors = [
+    { color: "red" },
+    { color: "green" },
+    { color: "blue" },
+    { color: "yellow" },
+    { color: "purple" },
+    { color: "pink" },
+    { color: "aqua" },
+    { color: "orange" },
+    { color: "gold" },
+    { color: "teal" },
+    { color: "indigo" },
+    { color: "lightgreen" },
+    { color: "darkred" },
+    { color: "white" },
+    { color: "black" },
+]
+
+let selectedColor;
+let dragToDraw = true;
+const minZoom = 5; // Divided by page width
+const maxZoom = 5; // Multiplied by page width
+const canvasBoundaryLimit = 50; // How far the canvas can go out of view in pixels
+let leftMouseDown = false;
+let rightMouseDown = false;
+
+function showColors() {
+    const colorsElement = document.getElementById("colors");
+
+    for (const colorIndex in colors) {
+        const color = colors[colorIndex];
+        const colorElement = document.createElement("div");
+
+        colorElement.classList.add("color");
+        colorElement.style.backgroundColor = color.color;
+        colorElement.onclick = () => selectColor(colorIndex);
+        
+        colorsElement.appendChild(colorElement);
+        
+        color.element = colorElement;
+        color.rgb = getComputedStyle(colorElement).backgroundColor.match(/rgb\((.*), (.*), (.*)\)/).slice(1);
+    };
+}
+
+function selectColor(index) {
+    selectedColor?.element?.classList.remove("selected");
+    selectedColor = colors[index];
+    selectedColor?.element?.classList.add("selected");
+}
+
 function connectWs() {
     return new Promise((resolve, reject) => {
         console.log("Connecting to WebSocket...");
@@ -54,4 +104,20 @@ function loadCanvas() {
             reject(err);
         }
     })
+}
+
+function getCanvasPixel(e) {
+    return {
+        x: e.pageX - canvas.offsetLeft,
+        y: e.pageY - canvas.offsetTop,
+        canvasX: Math.round((e.pageX - canvas.offsetLeft) * (canvas.width / canvas.offsetWidth)),
+        canvasY: Math.round((e.pageY - canvas.offsetTop) * (canvas.height / canvas.offsetHeight))
+    }
+}
+
+function setPixel(e) {
+    const { canvasX, canvasY } = getCanvasPixel(e);
+    const imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
+    if (imageData.data[0] == selectedColor.rgb[0] && imageData.data[1] == selectedColor.rgb[1] && imageData.data[2] == selectedColor.rgb[2]) return console.log("Not replacing pixel with the same color!");
+    wsConnection.json({ action: "set-color", x: canvasX, y: canvasY, color: selectedColor.rgb });
 }
