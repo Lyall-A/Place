@@ -58,6 +58,8 @@
                     canvas.style.left = `${Math.round(canvas.offsetLeft - ((prevCanvasX - currCanvasX) * (canvas.offsetWidth / canvas.width)))}px`;
                     canvas.style.top = `${Math.round(canvas.offsetTop - ((prevCanvasY - currCanvasY) * (canvas.offsetHeight / canvas.height)))}px`;
                 });
+
+                document.body.addEventListener("contextmenu", e => e.preventDefault());
             })();
         </script>
     </body>
