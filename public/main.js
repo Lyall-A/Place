@@ -95,6 +95,8 @@ function loadCanvas() {
             canvas.height = image.height;
             
             ctx.drawImage(image, 0, 0);
+
+            canvas.style[document.body.offsetWidth > document.body.offsetHeight  ? "width" : "height"] = "90%";
             
             console.log("Loaded canvas");
             resolve();
