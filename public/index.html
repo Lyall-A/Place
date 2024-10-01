@@ -10,7 +10,7 @@
     <body>
         <div id="main">
             <div id="colors">
-                <div style="width: 100%; text-align: center; color: white; font-size: 1.2em;">Colors</div>
+                <div style="font-family: Arial, sans-serif; width: 100%; text-align: center; color: white; font-size: 1.2em;">Colors</div>
             </div>
             <canvas id="canvas"></canvas>
         </div>
@@ -52,7 +52,7 @@
                 canvas.addEventListener("wheel", e => {
                     // TODO: zoom where cursor is (smoothly and not buggy)
                     const { canvasX: prevCanvasX, canvasY: prevCanvasY } = getCanvasPixel(e);
-                    canvas.style.width = `${Math.round(Math.min(Math.max(canvas.offsetWidth + e.deltaY, document.body.offsetWidth / minZoom), document.body.offsetWidth * maxZoom))}px`;
+                    canvas.style.width = `${Math.round(Math.min(Math.max(canvas.offsetWidth - e.deltaY, document.body.offsetWidth / minZoom), document.body.offsetWidth * maxZoom))}px`;
                     const { canvasX: currCanvasX, canvasY: currCanvasY } = getCanvasPixel(e);
 
                     canvas.style.left = `${Math.round(canvas.offsetLeft - ((prevCanvasX - currCanvasX) * (canvas.offsetWidth / canvas.width)))}px`;
